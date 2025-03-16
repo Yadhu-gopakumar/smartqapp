@@ -77,6 +77,11 @@ class OrderNotifier extends StateNotifier<OrderState> {
   }
 
   void _showError(BuildContext context, String message) {
+    if (!context.mounted) return; // Ensure context is valid before proceeding
+
+    // Avoid multiple dialogs by checking if one is already open
+    if (ModalRoute.of(context)?.isCurrent != true) return;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.mounted) {
         showDialog(

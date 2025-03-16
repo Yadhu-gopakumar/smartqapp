@@ -14,7 +14,7 @@ class _OrderPageState extends ConsumerState<OrderPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    Future.microtask(() {
       ref.read(orderProvider.notifier).fetchOrders(context);
     });
   }

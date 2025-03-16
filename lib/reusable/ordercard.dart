@@ -17,6 +17,9 @@ class OrderCard extends StatelessWidget {
   Future<void> _cancelOrder(BuildContext context) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context); // Store navigator
+
+
+    
     final url = "${baseUrl}user/orders/${order.id}";
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -29,39 +32,77 @@ class OrderCard extends StatelessWidget {
     }
 
     try {
+    
+      showDialog(
+        barrierDismissible: false,
+        context: navigator.context,
+        builder: (dialogContext) => const AlertDialog(
+          content: Row(
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(width: 20),
+              Text("Cancelling order..."),
+            ],
+          ),
+        ),
+      );
+
       final response = await http.delete(
         Uri.parse(url),
         headers: {"Authorization": "Bearer $token"},
       );
 
+      navigator.pop(); // Close loading dialog
+
       if (response.statusCode == 200) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showDialog(
-            barrierDismissible: false,
-            context: navigator.context,
-            builder: (dialogContext) => AlertDialog(
-              title: const Text("Order Cancelled"),
-              content: const Text("The remitted amount will be refunded."),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    navigator.pop(); // Close dialog
-                    onOrderCanceled?.call(); // Refresh orders
-                  },
-                  child: const Text("OK"),
-                ),
-              ],
-            ),
-          );
-        });
+        showDialog(
+          barrierDismissible: false,
+          context: navigator.context,
+          builder: (dialogContext) => AlertDialog(
+            title: const Text("Order Cancelled"),
+            content: const Text("The remitted amount will be refunded."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  navigator.pop(); // Close success dialog
+                  onOrderCanceled?.call(); // Refresh orders
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
       } else {
-        scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text("Failed: ${response.body}")),
+        // Show error if cancellation fails
+        showDialog(
+          context: navigator.context,
+          builder: (dialogContext) => AlertDialog(
+            title: const Text("Error"),
+            content: Text("Failed to cancel order (${response.statusCode})"),
+            actions: [
+              TextButton(
+                onPressed: () => navigator.pop(),
+                child: const Text("OK"),
+              ),
+            ],
+          ),
         );
       }
     } catch (e) {
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(content: Text("Error canceling order")),
+      navigator.pop(); // Close loading dialog if an error occurs
+
+      showDialog(
+        context: navigator.context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text("Error"),
+          content: Text("Error cancelling order: $e"),
+          actions: [
+            TextButton(
+              onPressed: () => navigator.pop(),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
       );
     }
   }

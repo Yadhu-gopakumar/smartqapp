@@ -6,29 +6,10 @@ import 'pages/acountpage.dart';
 import 'pages/orderpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'provider/bottom_bar_provider.dart';
-// import 'provider/car';
-// import 'package:permission_handler/permission_handler.dart';
 
-// Future<void> requestPermissions() async {
-//   PermissionStatus status = await Permission.manageExternalStorage.request();
-
-//   if (status.isGranted) {
-//     print("Permission Granted!");
-//   } else {
-//     print("Permission Denied!");
-//   }
-// }
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-
-//   final prefs = await SharedPreferences.getInstance();
-//   bool isAuthenticated = prefs.getString('token') != null;
-
-//   runApp(ProviderScope(child: MyApp(isAuthenticated: isAuthenticated)));
-// }
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Future.delayed(const Duration(seconds: 3)); // Delay splash screen
   runApp(const ProviderScope(child: AppInitializer()));
 }
 
@@ -77,7 +58,6 @@ class MyApp extends StatelessWidget {
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedLabelStyle: TextStyle(fontWeight: FontWeight.w500),
         ),
-       
       ),
       debugShowCheckedModeBanner: false,
       home: isAuthenticated ? const BottomBar() : LoginPage(),

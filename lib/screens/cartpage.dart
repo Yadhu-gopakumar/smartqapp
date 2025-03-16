@@ -5,6 +5,7 @@ import 'package:smartq/constants/constants.dart';
 import '../models/menu_item.dart';
 import '../provider/bottom_bar_provider.dart';
 import '../provider/cartprovider.dart';
+import '../provider/order_provider.dart';
 import '../services/booking_services.dart';
 
 class CartPage extends ConsumerStatefulWidget {
@@ -37,7 +38,7 @@ class _CartPageState extends ConsumerState<CartPage> {
       'name': 'SmartQ Booking',
       'description': 'Food Order',
       'theme': {'color': '#3399cc'},
-      'prefill': {'contact': '0123456789', 'email': 'flutter@developer.com'},
+      'prefill': {'contact': '859066859295', 'email': 'flutter@developer.com'},
       'method': {
         'upi': true,
         'netbanking': true,
@@ -79,8 +80,14 @@ class _CartPageState extends ConsumerState<CartPage> {
           const SnackBar(content: Text("Order placed successfully!")));
 
       ref.read(cartProvider.notifier).clearCart();
-      navigator.pop();
-      ref.read(bottomBarIndexProvider.notifier).state = 1;
+      navigator.pop(); // Go back
+
+      ref.read(bottomBarIndexProvider.notifier).state = 1; // Move to Orders tab
+
+      Future.delayed(Duration.zero, () {
+        ref.read(orderProvider.notifier).fetchOrders(navigator.context);
+      });
+
       scaffoldMessenger.showSnackBar(
         const SnackBar(
           dismissDirection: DismissDirection.horizontal,
