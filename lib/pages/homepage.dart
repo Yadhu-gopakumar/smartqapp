@@ -19,7 +19,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   List<MenuItem> allItems = [];
   List<MenuItem> filteredItems = [];
   TextEditingController searchController = TextEditingController();
-  bool isLoading = true; // ✅ Loading state
+  bool isLoading = true; // Loading state
 
   @override
   void initState() {

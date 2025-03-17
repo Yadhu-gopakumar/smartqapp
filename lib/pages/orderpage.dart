@@ -11,12 +11,18 @@ class OrderPage extends ConsumerStatefulWidget {
 }
 
 class _OrderPageState extends ConsumerState<OrderPage> {
-  @override
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.microtask(() {
+  //     ref.read(orderProvider.notifier).fetchOrders(context);
+  //   });
+  // }
+ @override
   void initState() {
     super.initState();
-    Future.microtask(() {
       ref.read(orderProvider.notifier).fetchOrders(context);
-    });
+
   }
 
   @override

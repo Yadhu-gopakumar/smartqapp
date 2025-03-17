@@ -1,4 +1,4 @@
 <resources>
-    <color name="splash_background">#ADB2D4</color> <!-- Gold-like yellow -->
+    <color name="splash_background">#ffffff</color> <!-- Gold-like yellow -->
 	<color name="ic_launcher_background">#ffffff</color>
 </resources>

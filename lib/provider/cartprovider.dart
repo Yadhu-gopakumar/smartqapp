@@ -57,8 +57,10 @@ class CartNotifier extends StateNotifier<Map<String, int>> {
     });
   }
 
-  void clearCart() {
+  Future<void> clearCart() async {
     state = {};
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('cart_items'); // Clear stored cart
   }
 }
 

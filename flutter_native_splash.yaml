@@ -1,10 +1,11 @@
 flutter_native_splash:
-  color: "#ffffff"  # Background color
-  image: images/flogo.png  # ✅ Ensures full coverage  android: true
+  color: "#ffffff"
+  image: images/flogo.png 
+  android: true
   ios: true
   web: true
   fullscreen: true
-
-  android_12:  
+  android_gravity: center
+  android_12:
     image: images/flogo.png  
-    icon_background_color: "#ffffff"  # Background color
+    icon_background_color: "#ffffff"

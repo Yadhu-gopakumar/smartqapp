@@ -33,7 +33,7 @@
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
                 android:name="android.windowSplashScreenAnimatedIcon"
-                android:resource="@mipmap/splash"/>
+                android:resource="@mipmap/launcher_icon"/>
             <meta-data
                 android:name="android.windowSplashScreenBackground"
                 android:resource="@color/splash_background"/>
